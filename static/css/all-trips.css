@@ -142,6 +142,7 @@ input, textarea, select {
   background: white;
   box-sizing: content-box;
   font-size: 1.1em;
+  font-family: 'Nunito Sans', 'Open Sans', sans-serif;
 }
 
 select {
@@ -157,6 +158,7 @@ input[type=checkbox] {
   display: inline-block;
   height: 1.5em;
   width: 1.5em;
+  margin-left: 0;
 }
 
 .separator {
@@ -166,53 +168,65 @@ input[type=checkbox] {
   background: #e0e0e0;
 }
 
-/*
-
-label {
-  font-size: 1.1rem;
+.subclub-dropdown {
+  position: relative;
+  display: inline-block;
+  border-radius: 9px;
+  border: 3px solid transparent;
+  margin: -3px -3px 0 -3px;
 }
 
-label > span {
-  font-weight: bold;
+.subclub-dropdown-btn {
+  border-radius: 6px;
+  border: 1px solid gray;
+  padding: 7px 10px 7px 7px;
+  background: white;
+  box-sizing: content-box;
+  font-size: 1.1em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-input[type=search] {
-  border: 1px solid #c4c4c4;
+.subclub-dropdown-btn img {
+  margin-left: 10px;
+  height: 16px;
+  width: 16px;
+}
+
+.subclub-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 250px;
+  border: 1px solid #ddd;
   border-radius: 5px;
-  padding: .25em;
-  margin: 0 0 15px 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  margin-top: 5px;
+  max-height: 50vh;
+  overflow: scroll;
 }
 
-.filters {
-  margin-right: 2em;
+.subclub {
   display: flex;
   flex-direction: row;
-  gap: 1em;
-}
-
-.filters label {
-  margin: 10px 0;
-  font-weight: bold;
-  flex-direction: row;
-  display: flex;
   align-items: center;
   gap: .5em;
+  padding: .8em;
 }
 
-.filters input {
-  font-size: 1.1em;
+.subclub:hover {
+  background-color: var(--background-gray);
 }
 
-.filters input[type=checkbox] {
-  height: 1.2em;
-  width: 1.2em;
+.subclub-dropdown:focus-within {
+  border: 3px solid #0ca074;
 }
 
-form button.approve {
-  padding: .25rem .5rem;
+.subclub-dropdown:focus-within > .subclub-dropdown-content {
+  display: block;
 }
-
-*/
 
 @media screen and (min-width: 600px) {
   .controls {

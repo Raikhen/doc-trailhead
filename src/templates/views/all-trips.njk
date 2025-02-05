@@ -5,12 +5,19 @@
 {% include "common/site-nav.njk" %}
 <main>
 
+{% set clubs_as_params %}
+  {% for club in clubs %}
+    [name=club_{{ club.id}}]
+    {% if not loop.last %},{% endif %}
+  {% endfor %}
+{% endset %}
+
 <section class="info-card controls">
 <h1><img src="/static/icons/mountain-icon.svg">Explore</h1>
 <form
   class=filters
   hx-get="/all-tiles"
-  hx-include="[name=beginner_friendly], [name=subclub], [name=when], [name=search]"
+  hx-include="[name=beginner_friendly], [name=when], [name=search], {{ clubs_as_params }}"
   hx-trigger="change"
   hx-target="#trips"
 >
@@ -19,15 +26,21 @@
     <input id=beginner-friendly name=beginner_friendly type=checkbox />
   </div>
   <div id=subclub-container>
-    <label for=subclub>Subclub</label>
-    <select
-      id=subclub
-      name=subclub>
-      <option value=-1>All clubs
-      {% for club in clubs %}
-        <option value="{{ club.id }}">{{ club.name }}
-      {% endfor %}
-    </select>
+    <span>Subclub</span>
+    <div class="subclub-dropdown" tabindex="0">
+        <div class="subclub-dropdown-btn">
+          Select Options
+          <img src="/static/icons/dropdown-icon.svg" alt="Expand dropdown" />
+        </div>
+        <div class="subclub-dropdown-content">
+          {% for club in clubs %}
+            <label class=subclub>
+              <input name="club_{{ club.id }}" type="checkbox" value="true">
+              <span>{{ club.name }}</span>
+            </label>
+          {% endfor %}
+        </div>
+    </div>
   </div>
   <div id=when-container>
     <label for=when>When</label>
@@ -48,7 +61,7 @@
       type=text
       placeholder="Search trips..."
       hx-get="/all-tiles"
-      hx-include="[name=beginner_friendly], [name=subclub], [name=when], [name=search]"
+      hx-include="[name=beginner_friendly], [name=when], [name=search], {{ clubs_as_params }}"
       hx-trigger="keyup delay:500ms"
       hx-target="#trips"
     >

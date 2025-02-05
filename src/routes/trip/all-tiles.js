@@ -3,10 +3,14 @@ import * as utils from '../../utils.js'
 export function get(req, res) {
   // Params
   const beginnersOnly = req.query?.beginner_friendly === 'on'
-  const subclub = parseInt(req.query?.subclub) || -1
   const search = req.query?.search
   const when = req.query?.when
   const showPrivate = res.locals.is_opo
+
+  // Get all the clubs that were selected
+  const clubIds = Object.keys(req.query)
+    .filter(key => key.startsWith('club_'))
+    .map(key => parseInt(key.slice(5)))
 
   // Time constraints
   const date = new Date()
@@ -29,6 +33,8 @@ export function get(req, res) {
     timeConstraint = `AND start_time >= ${now}`
   }
 
+  const clubConstraint = clubIds.length > 0 ? `AND trips.club IN (${clubIds.join(',')})` : ''
+
   const publicTrips = req.db.all(`
     SELECT trips.id, title, users.name as owner, location, start_time, end_time, description,
       coalesce(clubs.name, 'None') as club
@@ -38,9 +44,9 @@ export function get(req, res) {
     WHERE 1=1
     ${showPrivate ? '' : 'AND private = 0'}
     ${beginnersOnly ? 'AND experience_needed = 0' : ''}
-    ${subclub !== -1 ? `AND club = ${subclub}` : ''}
-    ${search ? `AND (title LIKE '%${search}%' OR description LIKE '%${search}%')` : ''}
     ${timeConstraint}
+    ${clubConstraint}
+    ${search ? `AND (title LIKE '%${search}%' OR description LIKE '%${search}%')` : ''}
     ORDER BY start_time ASC
   `)
 
