@@ -100,6 +100,7 @@ CREATE TABLE trip_members (
   leader INTEGER DEFAULT FALSE,
   attended INTEGER DEFAULT FALSE,
   pending INTEGER DEFAULT TRUE,
+  signed_up_on INTEGER DEFAULT (strftime('%s', 'now')),
   PRIMARY KEY (trip, user)
 ) STRICT;
 CREATE TABLE trip_required_gear (
